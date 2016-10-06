@@ -19,7 +19,7 @@ import java.util.LinkedList;
  * Created by Battlechicken on 2016-09-18.
  */
 public class RemembrallActivityData implements Serializable {
-    
+    static final long serialVersionUID =6859374837929453487L;
     
     LinkedList<Entry> entries = new LinkedList<>();
     
@@ -60,35 +60,8 @@ public class RemembrallActivityData implements Serializable {
         return data;
     }
     
-    static String calendarToString(Calendar calendar) {
-        
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH) + 1; // index from 0
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        //int hour = calendar.get(Calendar.HOUR);
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-        
-        
-        return String.format("<b>%d.%02d.%02d</b> %02d:%02d", year, month, day, hour, minute);
-    }
     
     
-    
-    String toHtml() {
-        
-        String html = "";
-    
-        for(Entry entry : entries) {
-
-
-            String deadline = entry.deadline != null ? RemembrallActivityData.calendarToString(entry.deadline) : "";
-
-            html += entry.title + "<span align='right' width='100%'>" + deadline + "</span>" + "<br/>";
-
-        }
-        return html;
-    }
     
     @Override
     public boolean equals(Object o) {

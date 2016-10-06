@@ -19,10 +19,62 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.LinkedList;
+
 /**
  * Implementation of App Widget functionality.
  */
 public class RemembrallWidget extends AppWidgetProvider {
+    
+    static String Bold(String text) {
+        return "<b>" + text + "</b>";
+    }
+    
+    static String Red(String text) {
+        return "<font color='red'>" + text + "</font>";
+    }
+    
+    final static long millisPerDay = 1000*60*60*24;
+    
+    static String toHtml(Calendar calendar) {
+        
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1; // index from 0
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        //int hour = calendar.get(Calendar.HOUR);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        
+        
+    
+        String html = String.format(Bold("%d.%02d.%02d") + " %02d:%02d", year, month, day, hour, minute);
+    
+        long remainingTimeMillis = calendar.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+        
+        if(remainingTimeMillis < millisPerDay) {
+            html = Red(html);
+        }
+        
+        return html;
+    }
+    
+    static String toHtml(RemembrallActivityData data) {
+        
+        String html = "";
+        LinkedList<Entry> entries = data.entries;
+        
+        for(Entry entry : entries) {
+            
+            
+            String deadline = entry.deadline != null ? toHtml(entry.deadline) : "";
+            
+            html += entry.title + " " + deadline + "<br/>";
+            
+        }
+        return html;
+    }
+    
     
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -36,7 +88,7 @@ public class RemembrallWidget extends AppWidgetProvider {
     
         RemembrallActivityData data = RemembrallActivityData.loadState(context);
     
-        widgetText = data.toHtml();
+        widgetText = toHtml(data);
     
         views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_SP, 18);
         //views.setTextViewText(R.id.appwidget_text, widgetText);

@@ -366,11 +366,25 @@ public class MainActivity extends AppCompatActivity {
         
         void update() {
             if( calendar != null ) {
-                this.setText(RemembrallActivityData.calendarToString(calendar));
+                this.setText(calendarToString(calendar));
             } else {
                 this.setText("Not set");
             }
             
+        }
+    
+    
+        private String calendarToString(Calendar calendar) {
+        
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH) + 1; // index from 0
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            //int hour = calendar.get(Calendar.HOUR);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+        
+        
+            return String.format("%d.%02d.%02d %02d:%02d", year, month, day, hour, minute);
         }
     }
     

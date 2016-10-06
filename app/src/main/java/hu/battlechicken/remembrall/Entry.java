@@ -6,6 +6,8 @@ import java.util.Calendar;
 public class Entry implements Serializable {
     // not random, generated from the first version of the class
     private static final long serialVersionUID = 7478467986558520238L;
+    //private static final long serialVersionUID = -5123961905181944850L;
+    
     
     public Entry(String title, String text, Calendar dateAdded, Calendar deadline) {
         this.title = title;
